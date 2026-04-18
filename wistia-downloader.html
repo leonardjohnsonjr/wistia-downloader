@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WistiaGet — Video Extractor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="wistia-downloader.css">
+
+</head>
+<body>
+<div class="wrapper">
+
+  <header>
+    <div class="logo-badge">
+      <span class="dot"></span>
+      Wistia Extractor
+    </div>
+    <h1>Download any<br><span>Wistia</span> video</h1>
+    <p class="subtitle">Paste a page URL or embed link · Get the source file</p>
+  </header>
+
+  <div class="card">
+
+    <!-- Step tracker -->
+    <div class="steps-title">Process</div>
+    <div class="steps" id="steps">
+      <div class="step active" id="step1">
+        <div class="step-num">1</div>
+        <div class="step-label">Enter<br>URL</div>
+      </div>
+      <div class="step" id="step2">
+        <div class="step-num">2</div>
+        <div class="step-label">Extract<br>Video ID</div>
+      </div>
+      <div class="step" id="step3">
+        <div class="step-num">3</div>
+        <div class="step-label">Fetch<br>Metadata</div>
+      </div>
+      <div class="step" id="step4">
+        <div class="step-num">4</div>
+        <div class="step-label">Ready to<br>Download</div>
+      </div>
+    </div>
+
+    <!-- Progress bar -->
+    <div class="progress-bar" id="progressBar">
+      <div class="progress-fill" id="progressFill" style="width:0%"></div>
+    </div>
+
+    <!-- Mode tabs -->
+    <div class="mode-tabs">
+      <button class="mode-tab active" id="tabUrl" onclick="switchMode('url')">⬡ URL</button>
+      <button class="mode-tab" id="tabSrc" onclick="switchMode('src')">⟨/⟩ Page Source</button>
+    </div>
+
+    <!-- URL mode -->
+    <div class="mode-panel active" id="panelUrl">
+      <label class="input-label" for="urlInput">Page or embed URL</label>
+      <div class="input-group">
+        <input
+          type="text"
+          id="urlInput"
+          class="url-input"
+          placeholder="https://example.com/page-with-wistia-video"
+          autocomplete="off"
+          spellcheck="false"
+        />
+        <button class="btn" id="fetchBtn" onclick="startExtraction()">Extract ↗</button>
+      </div>
+    </div>
+
+    <!-- Page source mode -->
+    <div class="mode-panel" id="panelSrc">
+      <label class="input-label" for="srcInput">Paste page source HTML</label>
+      <textarea
+        id="srcInput"
+        class="source-textarea"
+        placeholder="Paste the full page source here (Ctrl+U in browser, then Ctrl+A, Ctrl+C)…"
+        spellcheck="false"
+      ></textarea>
+      <div class="hint">
+        On the video page: press <kbd>Ctrl+U</kbd> (or <kbd>⌘+U</kbd>) to open page source,
+        then <kbd>Ctrl+A</kbd> → <kbd>Ctrl+C</kbd> to copy all, then paste here.
+      </div>
+      <div class="input-group" style="margin-top:12px;margin-bottom:0;">
+        <div style="flex:1"></div>
+        <button class="btn" onclick="startExtraction()">Extract ↗</button>
+      </div>
+    </div>
+
+    <!-- Detected Video ID -->
+    <div class="video-id-row" id="videoIdRow">
+      <span class="vid-label">Video ID</span>
+      <span class="vid-value" id="videoIdDisplay">—</span>
+    </div>
+
+    <!-- Log -->
+    <div class="log-box" id="logBox"></div>
+
+    <!-- Results -->
+    <div class="results" id="results"></div>
+
+    <!-- Error -->
+    <div class="error-card" id="errorCard">
+      <div class="error-title" id="errorTitle">Could not extract video</div>
+      <div class="error-body" id="errorBody"></div>
+      <div class="manual-steps" id="manualFallback" style="display:none">
+        <ol>
+          <li>Right-click the playing video → Copy link</li>
+          <li>Find <code>wvideo=XXXX</code> or <code>hashedId=XXXX</code> in that URL</li>
+          <li>Load <code>https://fast.wistia.net/embed/iframe/<strong>[VIDEO-ID]</strong></code></li>
+          <li>In the page source, search for <code>"type":"original"</code> and copy its URL</li>
+          <li>Change the <code>.bin</code> extension to <code>.mp4</code> and download</li>
+        </ol>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    Works with public Wistia-hosted videos &nbsp;·&nbsp;
+    No server required &nbsp;·&nbsp;
+    <a href="https://fast.wistia.net" target="_blank">Wistia CDN ↗</a>
+  </footer>
+</div>
+
+<script src="wistia-downloader.js"></script>
+
+</body>
+</html>
