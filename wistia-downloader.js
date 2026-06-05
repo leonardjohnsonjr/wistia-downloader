@@ -237,6 +237,7 @@
       } else {
         // ── URL mode: try to fetch the page ──────────────────────────────
         const url = $('urlInput').value.trim();
+        if (!url) throw { title: 'No URL entered', body: 'Please enter the URL of the page containing the Wistia video.', manual: false };
         log('Fetching page source…', 'info');
         try {
           const pageSource = await fetchWithFallback(url);
